@@ -1,0 +1,11 @@
+Observations & Experimentations
+===============================
+
+1. Reading the train file, and converting the data into int before pickle to disk, results in formation of 1.05 GB file, in contrast to 51 MB file size of train file.
+2. Using string type before pickle to disk, results in formation of 264 MB file.
+3. Reading all of train and test data while coding is not optimal.
+4. train dataset (42000, 784)
+test dataset (28000, 784)
+5. Adding functionality to get subset of dataset.
+6. Splitting train dataset into train-validation dataset for cross validation.
+
