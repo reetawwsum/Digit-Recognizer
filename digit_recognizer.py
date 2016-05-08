@@ -30,6 +30,9 @@ def run_training():
 		# Adding train op to the graph
 		train = train_op(loss, learning_rate)
 
+		# Adding accuracy op to the graph
+		score = accuracy(logits, labels_placeholder)
+
 		with tf.Session() as sess:
 			# Initializing all variables
 			init = tf.initialize_all_variables()
@@ -57,12 +60,12 @@ def run_training():
 
 				feed_dict = {images_placeholder: batch_data, labels_placeholder: batch_labels}
 
-				predictions, l, _ = sess.run([logits, loss, train], feed_dict=feed_dict)
+				l, _, train_accuracy = sess.run([loss, train, score], feed_dict=feed_dict)
 
 				if step % 500 == 0:
 					print 'Minibatch loss at step %d: %f' % (step, l)
-					print '  Training Accuracy: %.1f%%' % accuracy(predictions, batch_labels)
-					print '  Validation Accuracy: %.1f%%' % accuracy(sess.run(logits, feed_dict=validation_feed_dict), validation_labels)
+					print '  Training Accuracy: %.3f' % train_accuracy
+					print '  Validation Accuracy: %.3f' % sess.run(score, feed_dict=validation_feed_dict)
 
 if __name__ == '__main__':
 	run_training()		
