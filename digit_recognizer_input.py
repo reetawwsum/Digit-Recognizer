@@ -110,10 +110,15 @@ def load_digits(train_size=1, test_size=1, validation_size=0.1):
 	test = get_test_dataset(test_size)
 	train, validation = split_train_dataset(train_dataset, validation_size)
 
-	return train, validation, test
+	digits_dataset = {'train_dataset': train, 'validation_dataset': validation, 'test_dataset': test}
+
+	return digits_dataset
 
 if __name__ == '__main__':
-	train, validation, test = load_digits(0.01, 0.01, 0.1)
+	dataset = load_digits(0.01, 0.01, 0.1)
+	train = dataset['train_dataset']
+	validation = dataset['validation_dataset']
+	test = dataset['test_dataset']
 	print train.data.shape
 	print train.target.shape
 	print validation.data.shape
