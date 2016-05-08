@@ -105,3 +105,26 @@ test dataset (28000, 784)
 		Minibatch loss at step 3000: 96.718430
 		  Training Accuracy: 89.8%
 		  Validation Accuracy: 89.2%
+
+		v. Best
+		Minibatch loss at step 0: 339.297729
+		  Training Accuracy: 0.031
+		  Validation Accuracy: 0.148
+		Minibatch loss at step 500: 447.084900
+		  Training Accuracy: 0.859
+		  Validation Accuracy: 0.884
+		Minibatch loss at step 1000: 417.387726
+		  Training Accuracy: 0.906
+		  Validation Accuracy: 0.880
+		Minibatch loss at step 1500: 263.700958
+		  Training Accuracy: 0.906
+		  Validation Accuracy: 0.895
+		Minibatch loss at step 2000: 592.386292
+		  Training Accuracy: 0.875
+		  Validation Accuracy: 0.856
+		Minibatch loss at step 2500: 449.756134
+		  Training Accuracy: 0.906
+		  Validation Accuracy: 0.864
+		Minibatch loss at step 3000: 276.616699
+		  Training Accuracy: 0.914
+		  Validation Accuracy: 0.870
