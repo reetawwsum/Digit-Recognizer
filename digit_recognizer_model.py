@@ -40,7 +40,9 @@ def train_op(loss, learning_rate):
 	return train
 
 def accuracy(predictions, labels):
-	return (100.0 * np.sum(np.argmax(predictions, 1) == np.argmax(labels, 1)) / predictions.shape[0])
+	correct_prediction = tf.equal(tf.argmax(predictions, 1), tf.argmax(labels, 1))
+
+	return tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 if __name__ == '__main__':
 	pass
