@@ -14,7 +14,10 @@ def draw_digit(digit, target='Unknown'):
 	return plt
 
 if __name__ == '__main__':
-	train, validation, test = load_digits(0.01, 0.01, 0.1)
+	dataset = load_digits(0.01, 0.01, 0.1)
+	train = dataset['train_dataset']
+	validation = dataset['validation_dataset']
+	test = dataset['test_dataset']
 	X_train = train.data
 	X_validation = validation.data
 	X_test = test.data
