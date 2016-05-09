@@ -21,8 +21,8 @@ def bias_variable(shape):
 def inference(images):
 	# Linear Layer
 	with tf.name_scope('linear'):
-		weights = weight_variable([image_size * image_size, num_labels])
-		biases = bias_variable([num_labels])
+		weights = weight_variable([784, 10])
+		biases = bias_variable([10])
 
 		logits = tf.matmul(images, weights) + biases
 
