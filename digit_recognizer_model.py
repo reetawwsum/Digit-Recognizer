@@ -19,12 +19,19 @@ def bias_variable(shape):
 	return tf.Variable(initial)
 
 def inference(images):
+	# Hidden 1
+	with tf.name_scope('hidden1'):
+		weights = weight_variable([784, 800])
+		biases = bias_variable([800])
+
+		hidden1 = tf.nn.relu(tf.matmul(images, weights) + biases)
+
 	# Linear Layer
 	with tf.name_scope('linear'):
-		weights = weight_variable([784, 10])
+		weights = weight_variable([800, 10])
 		biases = bias_variable([10])
 
-		logits = tf.matmul(images, weights) + biases
+		logits = tf.matmul(hidden1, weights) + biases
 
 	return logits
 
