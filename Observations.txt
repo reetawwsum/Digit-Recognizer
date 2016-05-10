@@ -128,3 +128,31 @@ test dataset (28000, 784)
 		Minibatch loss at step 3000: 276.616699
 		  Training Accuracy: 0.914
 		  Validation Accuracy: 0.870
+
+8. Two layer Neural Network
+Input Layer -- Hidden Layer -- Output Layer
+  (784)			  (800)			 (10)
+
+	Minibatch loss at step 0: 559.136353
+	  Training Accuracy: 0.086
+	  Validation Accuracy: 0.196
+	Minibatch loss at step 500: 2.244367
+	  Training Accuracy: 0.156
+	  Validation Accuracy: 0.130
+	Minibatch loss at step 1000: 2.281980
+	  Training Accuracy: 0.133
+	  Validation Accuracy: 0.126
+	Minibatch loss at step 1500: 2.236976
+	  Training Accuracy: 0.141
+	  Validation Accuracy: 0.126
+	Minibatch loss at step 2000: 2.294441
+	  Training Accuracy: 0.109
+	  Validation Accuracy: 0.113
+	Minibatch loss at step 2500: 2.281888
+	  Training Accuracy: 0.102
+	  Validation Accuracy: 0.121
+	Minibatch loss at step 3000: 2.303011
+	  Training Accuracy: 0.109
+	  Validation Accuracy: 0.114
+
+9. Performance degraded.
