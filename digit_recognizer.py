@@ -4,7 +4,7 @@ from digit_recognizer_input import *
 from digit_recognizer_model import *
 
 num_labels = 10
-learning_rate = 0.01
+learning_rate = 0.005
 batch_size = 128
 num_steps = 3001
 
