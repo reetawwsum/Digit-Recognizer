@@ -133,6 +133,7 @@ test dataset (28000, 784)
 Input Layer -- Hidden Layer -- Output Layer
   (784)			  (800)			 (10)
 
+  	a. Learning rate 0.05
 	Minibatch loss at step 0: 559.136353
 	  Training Accuracy: 0.086
 	  Validation Accuracy: 0.196
@@ -156,3 +157,33 @@ Input Layer -- Hidden Layer -- Output Layer
 	  Validation Accuracy: 0.114
 
 9. Performance degraded.
+
+10. It was a problem with learning rate. Decreased to 0.01.
+
+11. Two layer Neural Network
+Input Layer -- Hidden Layer -- Output Layer
+  (784)			  (800)			 (10)
+
+  Output with various learning rate:
+  a. 0.01
+	Minibatch loss at step 0: 557.609558
+	  Training Accuracy: 0.109
+	  Validation Accuracy: 0.220
+	Minibatch loss at step 500: 0.933479
+	  Training Accuracy: 0.789
+	  Validation Accuracy: 0.779
+	Minibatch loss at step 1000: 0.777967
+	  Training Accuracy: 0.828
+	  Validation Accuracy: 0.842
+	Minibatch loss at step 1500: 0.478578
+	  Training Accuracy: 0.852
+	  Validation Accuracy: 0.808
+	Minibatch loss at step 2000: 0.203143
+	  Training Accuracy: 0.922
+	  Validation Accuracy: 0.879
+	Minibatch loss at step 2500: 0.269549
+	  Training Accuracy: 0.930
+	  Validation Accuracy: 0.890
+	Minibatch loss at step 3000: 0.109903
+	  Training Accuracy: 0.961
+	  Validation Accuracy: 0.905
