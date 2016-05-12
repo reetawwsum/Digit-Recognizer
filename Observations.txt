@@ -2,12 +2,18 @@ Observations & Experimentations
 ===============================
 
 1. Reading the train file, and converting the data into int before pickle to disk, results in formation of 1.05 GB file, in contrast to 51 MB file size of train file.
+
 2. Using string type before pickle to disk, results in formation of 264 MB file.
+
 3. Reading all of train and test data while coding is not optimal.
+
 4. train dataset (42000, 784)
 test dataset (28000, 784)
+
 5. Adding functionality to get subset of dataset.
+
 6. Splitting train dataset into train-validation dataset for cross validation.
+
 7. Experimenting with various ANN architecture:
 	a. Linear Model - 1 Layer (784-10)
 	Input Layer -- Output Layer
@@ -244,3 +250,42 @@ Input Layer -- Hidden Layer 1 -- Hidden Layer 2 -- Output Layer
 	  Validation Accuracy: 0.891 
 
 14. With any model, if I leave the model to train for larger epoch, there are high chances that the model will improve with time.
+
+15. Deep Artificial Neural Network - 6 layer (784-2500-2000-1500-1000-500-10)
+
+16. Very slow on CPU. I don't think, I can make any model deep than 6 layers.
+
+17. Batch size of 128 is resulting in getting loss as nan. Either, I have to decrease the batch size, or change the optimizer algorithm.
+
+18. Even decreasing the batch size to 100 is not helping.
+
+19. Changed my optimizer to Adagrad to converge my model.
+
+20. Running time 35 minutes
+	Learning rate 0.005
+	Batch size 128
+	Minibatch loss at step 0: 31736.123047
+	  Training Accuracy: 0.125
+	  Validation Accuracy: 0.120
+	Minibatch loss at step 500: 7.318397
+	  Training Accuracy: 0.961
+	  Validation Accuracy: 0.920
+	Minibatch loss at step 1000: 0.691998
+	  Training Accuracy: 0.984
+	  Validation Accuracy: 0.928
+	Minibatch loss at step 1500: 0.490349
+	  Training Accuracy: 0.992
+	  Validation Accuracy: 0.930
+	Minibatch loss at step 2000: 0.000000
+	  Training Accuracy: 1.000
+	  Validation Accuracy: 0.927
+	Minibatch loss at step 2500: 0.000000
+	  Training Accuracy: 1.000
+	  Validation Accuracy: 0.930
+	Minibatch loss at step 3000: 0.000000
+	  Training Accuracy: 1.000
+	  Validation Accuracy: 0.928
+
+21. Adagrad worked like a charm, but my model is facing high variance problem, resulting in overfitting to training examples.
+
+22. Heat up my MackBook like hell.
