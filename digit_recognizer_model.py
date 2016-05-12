@@ -21,24 +21,45 @@ def bias_variable(shape):
 def inference(images):
 	# Hidden 1
 	with tf.name_scope('hidden1'):
-		weights = weight_variable([784, 128])
-		biases = bias_variable([128])
+		weights = weight_variable([784, 2500])
+		biases = bias_variable([2500])
 
 		hidden1 = tf.nn.relu(tf.matmul(images, weights) + biases)
 
 	# Hidden 2
 	with tf.name_scope('hidden2'):
-		weights = weight_variable([128, 32])
-		biases = bias_variable([32])
+		weights = weight_variable([2500, 2000])
+		biases = bias_variable([2000])
 
 		hidden2 = tf.nn.relu(tf.matmul(hidden1, weights) + biases)
 
+	# Hidden 3
+	with tf.name_scope('hidden3'):
+		weights = weight_variable([2000, 1500])
+		biases = bias_variable([1500])
+
+		hidden3 = tf.nn.relu(tf.matmul(hidden2, weights) + biases)
+
+	# Hidden 4
+	with tf.name_scope('hidden4'):
+		weights = weight_variable([1500, 1000])
+		biases = bias_variable([1000])
+
+		hidden4 = tf.nn.relu(tf.matmul(hidden3, weights) + biases)
+
+	# Hidden 5
+	with tf.name_scope('hidden5'):
+		weights = weight_variable([1000, 500])
+		biases = bias_variable([500])
+
+		hidden5 = tf.nn.relu(tf.matmul(hidden4, weights) + biases)
+
 	# Linear Layer
 	with tf.name_scope('linear'):
-		weights = weight_variable([32, 10])
+		weights = weight_variable([500, 10])
 		biases = bias_variable([10])
 
-		logits = tf.matmul(hidden2, weights) + biases
+		logits = tf.matmul(hidden5, weights) + biases
 
 	return logits
 
@@ -48,7 +69,7 @@ def loss_op(logits, labels):
 	return loss	
 
 def train_op(loss, learning_rate):
-	optimizer = tf.train.GradientDescentOptimizer(learning_rate)
+	optimizer = tf.train.AdagradOptimizer(learning_rate)
 	train = optimizer.minimize(loss)
 
 	return train
