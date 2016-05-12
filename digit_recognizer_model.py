@@ -5,7 +5,7 @@ image_size = 28
 num_labels = 10
 
 def placeholder_input():
-	images_placeholder = tf.placeholder(tf.float32, shape=(None, image_size * image_size))
+	images_placeholder = tf.placeholder(tf.float32, shape=(None, image_size, image_size, 1))
 	labels_placeholder = tf.placeholder(tf.float32, shape=(None, num_labels))
 
 	return images_placeholder, labels_placeholder
@@ -18,48 +18,44 @@ def bias_variable(shape):
 	initial = tf.constant(0.1, shape=shape)
 	return tf.Variable(initial)
 
-def inference(images):
-	# Hidden 1
-	with tf.name_scope('hidden1'):
-		weights = weight_variable([784, 2500])
-		biases = bias_variable([2500])
+def conv2d(x, W):
+	return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME')
 
-		hidden1 = tf.nn.relu(tf.matmul(images, weights) + biases)
+def max_pool_2x2(x):
+	return tf.nn.max_pool(x, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
 
-	# Hidden 2
-	with tf.name_scope('hidden2'):
-		weights = weight_variable([2500, 2000])
-		biases = bias_variable([2000])
+def inference(images, keep_prob):
+	# Convolutional layer 1
+	W_conv1 = weight_variable([5, 5, 1, 32])
+	b_conv1 = bias_variable([32])
 
-		hidden2 = tf.nn.relu(tf.matmul(hidden1, weights) + biases)
+	h_conv1 = tf.nn.relu(conv2d(images, W_conv1) + b_conv1)
 
-	# Hidden 3
-	with tf.name_scope('hidden3'):
-		weights = weight_variable([2000, 1500])
-		biases = bias_variable([1500])
+	h_pool1 = max_pool_2x2(h_conv1)
 
-		hidden3 = tf.nn.relu(tf.matmul(hidden2, weights) + biases)
+	# Convolutional layer 2
+	W_conv2 = weight_variable([5, 5, 32, 64])
+	b_conv2 = bias_variable([64])
 
-	# Hidden 4
-	with tf.name_scope('hidden4'):
-		weights = weight_variable([1500, 1000])
-		biases = bias_variable([1000])
+	h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
 
-		hidden4 = tf.nn.relu(tf.matmul(hidden3, weights) + biases)
+	h_pool2 = max_pool_2x2(h_conv2)
 
-	# Hidden 5
-	with tf.name_scope('hidden5'):
-		weights = weight_variable([1000, 500])
-		biases = bias_variable([500])
+	# Fully connected layer
+	W_fc1 = weight_variable([7 * 7 * 64, 1024])
+	b_fc1 = bias_variable([1024])
 
-		hidden5 = tf.nn.relu(tf.matmul(hidden4, weights) + biases)
+	h_pool2_flat = tf.reshape(h_pool2, [-1, 7 * 7 * 64])
+	h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
 
-	# Linear Layer
-	with tf.name_scope('linear'):
-		weights = weight_variable([500, 10])
-		biases = bias_variable([10])
+	# Dropout layer
+	h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
 
-		logits = tf.matmul(hidden5, weights) + biases
+	# Linear layer
+	W_fc2 = weight_variable([1024, 10])
+	b_fc2 = bias_variable([10])
+
+	logits = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
 
 	return logits
 
@@ -69,7 +65,7 @@ def loss_op(logits, labels):
 	return loss	
 
 def train_op(loss, learning_rate):
-	optimizer = tf.train.AdagradOptimizer(learning_rate)
+	optimizer = tf.train.AdamOptimizer(learning_rate)
 	train = optimizer.minimize(loss)
 
 	return train
