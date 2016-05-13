@@ -4,9 +4,9 @@ from digit_recognizer_input import *
 from digit_recognizer_model import *
 
 num_labels = 10
-learning_rate = 1e-4 
-batch_size = 50
-num_steps = 20001
+learning_rate = 1e-4
+batch_size = 100
+num_steps = 8001
 
 def reformat(dataset, labels):
 
@@ -21,11 +21,8 @@ def run_training():
 		# Creating placeholder for images and labels
 		images_placeholder, labels_placeholder = placeholder_input()
 
-		# Creating placeholder for dropout
-		keep_prob = tf.placeholder(tf.float32)
-
 		# Builds a graph that computes inference		
-		logits = inference(images_placeholder, keep_prob)
+		logits = inference(images_placeholder)
 
 		# Adding loss op to the graph
 		loss = loss_op(logits, labels_placeholder)
@@ -53,7 +50,7 @@ def run_training():
 			train_images, train_labels = reformat(train_dataset.data, train_dataset.target)
 			validation_data, validation_labels = reformat(validation_dataset.data, validation_dataset.target)
 
-			validation_feed_dict = {images_placeholder: validation_data, labels_placeholder: validation_labels, keep_prob: 1.0}
+			validation_feed_dict = {images_placeholder: validation_data, labels_placeholder: validation_labels}
 
 			for step in xrange(num_steps):
 				offset = (step * batch_size) % (train_images.shape[0] - batch_size)
@@ -61,13 +58,13 @@ def run_training():
 				batch_data = train_images[offset:(offset + batch_size), :]
 				batch_labels = train_labels[offset:(offset + batch_size), :]
 
-				feed_dict = {images_placeholder: batch_data, labels_placeholder: batch_labels, keep_prob: 0.5}
+				feed_dict = {images_placeholder: batch_data, labels_placeholder: batch_labels}
 
 				l, _ = sess.run([loss, train], feed_dict=feed_dict)
 
 				if step % 500 == 0:
 					print 'Minibatch loss at step %d: %f' % (step, l)
-					print '  Training Accuracy: %.3f' % sess.run(score, feed_dict={images_placeholder: batch_data, labels_placeholder: batch_labels, keep_prob: 1.0})
+					print '  Training Accuracy: %.3f' % sess.run(score, feed_dict={images_placeholder: batch_data, labels_placeholder: batch_labels})
 					print '  Validation Accuracy: %.3f' % sess.run(score, feed_dict=validation_feed_dict)
 
 if __name__ == '__main__':
