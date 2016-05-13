@@ -419,3 +419,39 @@ Epochs - 20001
 	Minibatch loss at step 20000: 0.000000
 	  Training Accuracy: 1.000
 	  Validation Accuracy: 0.984
+
+24. Four layer Convolutional Network - 4 layer Convnet (1-20-P-40-P-150FC-10)
+	a. Learning rate 1e-4
+	Batch size 100
+
+	Minibatch loss at step 0: 506.537537
+	  Training Accuracy: 0.030
+	  Validation Accuracy: 0.096
+	Minibatch loss at step 500: 8.180672
+	  Training Accuracy: 0.860
+	  Validation Accuracy: 0.894
+	Minibatch loss at step 1000: 1.410531
+	  Training Accuracy: 0.940
+	  Validation Accuracy: 0.926
+	Minibatch loss at step 1500: 1.043909
+	  Training Accuracy: 0.940
+	  Validation Accuracy: 0.937
+	Minibatch loss at step 2000: 2.740659
+	  Training Accuracy: 0.950
+	  Validation Accuracy: 0.948
+	Minibatch loss at step 2500: 0.935786
+	  Training Accuracy: 0.990
+	  Validation Accuracy: 0.956
+	Minibatch loss at step 3000: 0.273154
+	  Training Accuracy: 0.990
+	  Validation Accuracy: 0.957
+	Minibatch loss at step 3500: 0.000000
+	  Training Accuracy: 1.000
+	  Validation Accuracy: 0.957
+	Minibatch loss at step 4000: 0.002266
+	  Training Accuracy: 1.000
+	  Validation Accuracy: 0.957
+
+25. Model is facing overfitting problem.
+
+26. Dropout doesn't work with this model, because number of units in 3rd layer is very small; resulting in accuracy drop.
