@@ -10,9 +10,15 @@ def placeholder_input():
 
 	return images_placeholder, labels_placeholder
 
-def weight_variable(shape):
+def weight_variable(shape, wd=None):
 	initial = tf.truncated_normal(shape, stddev=0.1)
-	return tf.Variable(initial)
+	var = tf.Variable(initial)
+
+	if wd is not None:
+	    weight_decay = tf.mul(tf.nn.l2_loss(var), wd)
+	    tf.add_to_collection('losses', weight_decay)
+
+	return var
 
 def bias_variable(shape):
 	initial = tf.constant(0.1, shape=shape)
@@ -42,7 +48,7 @@ def inference(images):
 	h_pool2 = max_pool_2x2(h_conv2)
 
 	# Fully connected layer
-	W_fc1 = weight_variable([7 * 7 * 40, 150])
+	W_fc1 = weight_variable([7 * 7 * 40, 150], 0.001)
 	b_fc1 = bias_variable([150])
 
 	h_pool2_flat = tf.reshape(h_pool2, [-1, 7 * 7 * 40])
@@ -57,9 +63,12 @@ def inference(images):
 	return logits
 
 def loss_op(logits, labels):
-	loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits, labels))
+	cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits, labels))
 
-	return loss	
+	tf.add_to_collection("losses", cross_entropy)
+	loss = tf.add_n(tf.get_collection('losses'))
+
+	return loss
 
 def train_op(loss, learning_rate):
 	optimizer = tf.train.AdamOptimizer(learning_rate)
