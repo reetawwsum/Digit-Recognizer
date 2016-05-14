@@ -20,9 +20,15 @@ def weight_variable(shape, wd=None):
 
 	return var
 
-def bias_variable(shape):
+def bias_variable(shape, bd=None):
 	initial = tf.constant(0.1, shape=shape)
-	return tf.Variable(initial)
+	var = tf.Variable(initial)
+
+	if bd is not None:
+		bias_decay = tf.mul(tf.nn.l2_loss(var), bd)
+		tf.add_to_collection('losses', bias_decay)
+
+	return var
 
 def conv2d(x, W):
 	return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME')
@@ -30,7 +36,7 @@ def conv2d(x, W):
 def max_pool_2x2(x):
 	return tf.nn.max_pool(x, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
 
-def inference(images):
+def inference(images, keep_prob):
 	# Convolutional layer 1
 	W_conv1 = weight_variable([5, 5, 1, 32])
 	b_conv1 = bias_variable([32])
@@ -48,24 +54,27 @@ def inference(images):
 	h_pool2 = max_pool_2x2(h_conv2)
 
 	# Fully connected layer
-	W_fc1 = weight_variable([7 * 7 * 64, 1024])
-	b_fc1 = bias_variable([1024])
+	W_fc1 = weight_variable([7 * 7 * 64, 1024], 5e-4)
+	b_fc1 = bias_variable([1024], 5e-4)
 
 	h_pool2_flat = tf.reshape(h_pool2, [-1, 7 * 7 * 64])
 	h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
 
-	# Linear layer
-	W_fc2 = weight_variable([1024, 10])
-	b_fc2 = bias_variable([10])
+	# Dropout layer
+	h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
 
-	logits = tf.matmul(h_fc1, W_fc2) + b_fc2
+	# Linear layer
+	W_fc2 = weight_variable([1024, 10], 5e-4)
+	b_fc2 = bias_variable([10], 5e-4)
+
+	logits = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
 
 	return logits
 
 def loss_op(logits, labels):
 	cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits, labels))
 
-	tf.add_to_collection("losses", cross_entropy)
+	tf.add_to_collection('losses', cross_entropy)
 	loss = tf.add_n(tf.get_collection('losses'))
 
 	return loss
