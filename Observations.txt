@@ -540,3 +540,49 @@ Epochs - 20001
 	a. Validation set is static, make it variable to get proper accuracy of the model.
 	b. Save the model to the disk.
 	c. Generate result of test.csv and submit it to Kaggle.
+
+34. Added l2 regularization to weights and biases in fully connected layers with decay value of 5e-4, along with dropout after first fully connected layer.
+
+35. Increasing the learning rate of the model to converge faster.
+
+36. Final model and hyperparams
+	Four layer Convolutional Network - 4 layer Convnet (1-32-P-64-P-1024FC-D-10)
+	Learning rate - 1e-3
+	Batch size - 64
+	Epochs - 20001
+	l2 regularization - 5e-4
+	Optimizer - AdamOptimizer
+
+	Minibatch loss at step 2000: 6.033628
+	  Training Accuracy: 0.984
+	  Validation Accuracy: 0.980
+	Minibatch loss at step 2500: 5.184522
+	  Training Accuracy: 0.984
+	  Validation Accuracy: 0.976
+	Minibatch loss at step 3000: 4.880740
+	  Training Accuracy: 1.000
+	  Validation Accuracy: 0.978
+	Minibatch loss at step 3500: 4.610085
+	  Training Accuracy: 1.000
+	  Validation Accuracy: 0.976
+	Minibatch loss at step 4000: 4.350514
+	  Training Accuracy: 0.984
+	  Validation Accuracy: 0.980
+	Minibatch loss at step 4500: 3.927802
+	  Training Accuracy: 1.000
+	  Validation Accuracy: 0.980
+	Minibatch loss at step 5000: 3.703960
+	  Training Accuracy: 1.000
+	  Validation Accuracy: 0.979
+	Minibatch loss at step 5500: 3.830924
+	  Training Accuracy: 1.000
+	  Validation Accuracy: 0.977
+	Minibatch loss at step 6000: 3.181336
+	  Training Accuracy: 0.984
+	  Validation Accuracy: 0.982
+	Minibatch loss at step 6500: 3.271714
+	  Training Accuracy: 0.984
+	  Validation Accuracy: 0.977
+	Minibatch loss at step 7000: 2.508340
+	  Training Accuracy: 0.984
+  	  Validation Accuracy: 0.978
