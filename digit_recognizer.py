@@ -5,7 +5,7 @@ from digit_recognizer_model import *
 
 num_labels = 10
 learning_rate = 1e-4
-batch_size = 100
+batch_size = 64
 num_steps = 8001
 
 def reformat(dataset, labels):
