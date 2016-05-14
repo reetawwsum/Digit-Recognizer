@@ -534,3 +534,9 @@ Epochs - 20001
 
 31. Still not satisfying result.
 
+32. Maybe, I'm not training my model for enough time.
+
+33. Pipeline:
+	a. Validation set is static, make it variable to get proper accuracy of the model.
+	b. Save the model to the disk.
+	c. Generate result of test.csv and submit it to Kaggle.
