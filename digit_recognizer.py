@@ -2,16 +2,19 @@ import numpy as np
 import tensorflow as tf
 from digit_recognizer_input import *
 from digit_recognizer_model import *
+from digit_plot import *
 
 num_labels = 10
 learning_rate = 1e-3
 batch_size = 64
-num_steps = 20001
+num_steps = 2001
 
-def reformat(dataset, labels):
+def reformat(dataset, labels=None):
 
 	dataset = np.reshape(dataset, (-1, 28, 28, 1)).astype(np.float32)
-	labels = (labels[:, None].astype(int) == np.arange(num_labels)).astype(np.float32)
+
+	if labels is not None:
+		labels = (labels[:, None].astype(int) == np.arange(num_labels)).astype(np.float32)
 
 	return dataset, labels
 
@@ -35,6 +38,9 @@ def run_training():
 
 		# Adding accuracy op to the graph
 		score = accuracy(logits, labels_placeholder)
+
+		# Creating saver to write training checkpoints
+		saver = tf.train.Saver()
 
 		with tf.Session() as sess:
 			# Initializing all variables
@@ -66,10 +72,50 @@ def run_training():
 				l, _ = sess.run([loss, train], feed_dict=feed_dict)
 
 				if step % 500 == 0:
+					# Saving the sess
+					saver.save(sess, 'dataset/my-model', global_step=step)
+
 					print 'Minibatch loss at step %d: %f' % (step, l)
 					print '  Training Accuracy: %.3f' % sess.run(score, feed_dict={images_placeholder: batch_data, labels_placeholder: batch_labels, keep_prob: 1.0})
 					print '  Validation Accuracy: %.3f' % sess.run(score, feed_dict=validation_feed_dict)
 
+def make_predictions():
+
+	with tf.Graph().as_default():
+		# Creating placeholder for images and labels
+		images_placeholder, _ = placeholder_input()
+
+		# Creating placeholder for dropout
+		keep_prob = tf.placeholder(tf.float32)
+
+		# Builds a graph that computes inference
+		logits = inference(images_placeholder, keep_prob)
+
+		# Creating saver to read training checkpoints
+		saver = tf.train.Saver()
+
+		with tf.Session() as sess:
+			# Restore variables from disk
+			saver.restore(sess, 'dataset/my-model-2000')
+			print 'Model restored'
+
+			# Loading dataset
+			print 'Loading dataset'
+			test = get_test_dataset(0.01)
+			print 'Dataset loaded'
+
+			# Reshaping test dataset for prediction
+			test_data, _ = reformat(test.data)
+
+			# Predicting the labels
+			predictions = sess.run(logits, feed_dict={images_placeholder: test_data, keep_prob: 1.0})
+
+			# Plotting a random prediction to verify
+			num1 = np.random.randint(len(predictions))
+			draw_digit(test.data[num1].astype(np.float32), np.argmax(predictions[num1]))
+
+			plt.show()
+
 if __name__ == '__main__':
 	run_training()		
-
+	make_predictions()

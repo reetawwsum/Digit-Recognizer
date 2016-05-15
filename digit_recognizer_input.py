@@ -80,7 +80,7 @@ def get_train_dataset(size):
 
 	return train
 
-def get_test_dataset(size):
+def get_test_dataset(size=1):
 
 	test_pickle_file = 'test_' + str(size) + '.pickle'
 	
