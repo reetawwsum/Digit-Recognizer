@@ -105,12 +105,11 @@ def split_train_dataset(train_dataset, test_size=0.1):
 
 	return train, validation
 
-def load_digits(train_size=1, test_size=1, validation_size=0.1):
+def load_digits(train_size=1, validation_size=0.1):
 	train_dataset = get_train_dataset(train_size)
-	test = get_test_dataset(test_size)
 	train, validation = split_train_dataset(train_dataset, validation_size)
 
-	digits_dataset = {'train_dataset': train, 'validation_dataset': validation, 'test_dataset': test}
+	digits_dataset = {'train_dataset': train, 'validation_dataset': validation}
 
 	return digits_dataset
 
