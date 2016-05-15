@@ -7,7 +7,7 @@ from digit_plot import *
 num_labels = 10
 learning_rate = 1e-3
 batch_size = 64
-num_steps = 2001
+num_steps = 40001
 
 def reformat(dataset, labels=None):
 
@@ -50,7 +50,7 @@ def run_training():
 
 			# Loading dataset
 			print 'Loading dataset'
-			dataset = load_digits()
+			dataset = load_digits(validation_size=0.01)
 			print 'Dataset loaded'
 			train_dataset = dataset['train_dataset']
 			validation_dataset = dataset['validation_dataset']
@@ -96,7 +96,7 @@ def make_predictions():
 
 		with tf.Session() as sess:
 			# Restore variables from disk
-			saver.restore(sess, 'dataset/my-model-2000')
+			saver.restore(sess, 'dataset/my-model-40000')
 			print 'Model restored'
 
 			# Loading dataset

@@ -586,3 +586,11 @@ Epochs - 20001
 	Minibatch loss at step 7000: 2.508340
 	  Training Accuracy: 0.984
   	  Validation Accuracy: 0.978
+
+37. Saving the model to the disk for test.csv
+Trained my model for 3.5 hours (40k epochs)
+Using my-model-40000 for predictions.
+
+38. Added function added to make predictions for test.csv
+
+
