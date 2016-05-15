@@ -101,7 +101,7 @@ def make_predictions():
 
 			# Loading dataset
 			print 'Loading dataset'
-			test = get_test_dataset(0.01)
+			test = get_test_dataset()
 			print 'Dataset loaded'
 
 			# Reshaping test dataset for prediction
