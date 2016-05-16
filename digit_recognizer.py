@@ -10,7 +10,7 @@ batch_size = 64
 num_steps = 40001
 
 def reformat(dataset, labels=None):
-
+	# Reshaping dataset according to model
 	dataset = np.reshape(dataset, (-1, 28, 28, 1)).astype(np.float32)
 
 	if labels is not None:
@@ -19,7 +19,7 @@ def reformat(dataset, labels=None):
 	return dataset, labels
 
 def run_training():
-
+	# Training my model
 	with tf.Graph().as_default():
 		# Creating placeholder for images and labels
 		images_placeholder, labels_placeholder = placeholder_input()
@@ -80,7 +80,7 @@ def run_training():
 					print '  Validation Accuracy: %.3f' % sess.run(score, feed_dict=validation_feed_dict)
 
 def make_predictions():
-
+	# Making predictions using saved model
 	with tf.Graph().as_default():
 		# Creating placeholder for images and labels
 		images_placeholder, _ = placeholder_input()
@@ -104,15 +104,24 @@ def make_predictions():
 			test = get_test_dataset()
 			print 'Dataset loaded'
 
-			# Reshaping test dataset for prediction
-			test_data, _ = reformat(test.data)
+			predictions = []
 
-			# Predicting the labels
-			predictions = sess.run(logits, feed_dict={images_placeholder: test_data, keep_prob: 1.0})
+			for i, image in enumerate(test.data):
+				test_data, _ = reformat(image)
+
+				# Predicting the label one by one
+				prediction = sess.run(logits, feed_dict={images_placeholder: test_data, keep_prob: 1.0})
+				predictions.append(np.argmax(prediction))
+
+				if i % 1000 == 0:
+					print 'Predicting %d labels complete' % i
+
+			# Writing the predictions to a file for submission
+			write_output(predictions, 'output.csv')
 
 			# Plotting a random prediction to verify
 			num1 = np.random.randint(len(predictions))
-			draw_digit(test.data[num1].astype(np.float32), np.argmax(predictions[num1]))
+			draw_digit(test.data[num1].astype(np.float32), predictions[num1])
 
 			plt.show()
 
