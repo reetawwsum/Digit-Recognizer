@@ -593,4 +593,7 @@ Using my-model-40000 for predictions.
 
 38. Added function added to make predictions for test.csv
 
+39. Unable to predict all of test.csv in a single batch, due to low memory. I need to make predictions in batches.
+
+40. Even one by one predicting the label is taking lot of time.
 
