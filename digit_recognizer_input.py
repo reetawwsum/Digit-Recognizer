@@ -58,6 +58,14 @@ def read_test_file(size):
 
 	return test
 
+def write_output(content, file_name):
+	with open(file_path + file_name, 'wb') as f:
+		csv_writer = csv.writer(f, delimiter=',')
+		csv_writer.writerow(['ImageId', 'Label'])
+
+		for i, label in enumerate(content):
+			csv_writer.writerow([i+1, label])
+
 def write_pickle(content, file_name):
 	with open(file_path + file_name, 'wb') as f:
 		pickle.dump(content, f)
