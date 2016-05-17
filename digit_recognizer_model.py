@@ -63,11 +63,20 @@ def inference(images, keep_prob):
 	# Dropout layer
 	h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
 
-	# Linear layer
-	W_fc2 = weight_variable([1024, 10], 5e-4)
-	b_fc2 = bias_variable([10], 5e-4)
+	# Fully connected layer
+	W_fc2 = weight_variable([1024, 512], 5e-4)
+	b_fc2 = bias_variable([512], 5e-4)
 
-	logits = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
+	h_fc2 = tf.nn.relu(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
+
+	# Dropout layer
+	h_fc2_drop = tf.nn.dropout(h_fc2, keep_prob)
+
+	# Linear layer
+	W_fc3 = weight_variable([512, 10], 5e-4)
+	b_fc3 = bias_variable([10], 5e-4)
+
+	logits = tf.matmul(h_fc2_drop, W_fc3) + b_fc3
 
 	return logits
 
