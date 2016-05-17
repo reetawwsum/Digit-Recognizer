@@ -38,45 +38,50 @@ def max_pool_2x2(x):
 
 def inference(images, keep_prob):
 	# Convolutional layer 1
-	W_conv1 = weight_variable([5, 5, 1, 32])
-	b_conv1 = bias_variable([32])
+	with tf.name_scope('conv1'):
+		weights = weight_variable([5, 5, 1, 32])
+		biases = bias_variable([32])
 
-	h_conv1 = tf.nn.relu(conv2d(images, W_conv1) + b_conv1)
+		conv1 = tf.nn.relu(conv2d(images, weights) + biases)
 
-	h_pool1 = max_pool_2x2(h_conv1)
+	pool1 = max_pool_2x2(conv1)
 
 	# Convolutional layer 2
-	W_conv2 = weight_variable([5, 5, 32, 64])
-	b_conv2 = bias_variable([64])
+	with tf.name_scope('conv2'):
+		weights = weight_variable([5, 5, 32, 64])
+		biases = bias_variable([64])
 
-	h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
+		conv2 = tf.nn.relu(conv2d(pool1, weights) + biases)
 
-	h_pool2 = max_pool_2x2(h_conv2)
-
-	# Fully connected layer
-	W_fc1 = weight_variable([7 * 7 * 64, 1024], 5e-4)
-	b_fc1 = bias_variable([1024], 5e-4)
-
-	h_pool2_flat = tf.reshape(h_pool2, [-1, 7 * 7 * 64])
-	h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
-
-	# Dropout layer
-	h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
+	pool2 = max_pool_2x2(conv2)
 
 	# Fully connected layer
-	W_fc2 = weight_variable([1024, 512], 5e-4)
-	b_fc2 = bias_variable([512], 5e-4)
+	with tf.name_scope('fc1'):
+		weights = weight_variable([7 * 7 * 64, 1024], 5e-4)
+		biases = bias_variable([1024], 5e-4)
 
-	h_fc2 = tf.nn.relu(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
+		pool2_flat = tf.reshape(pool2, [-1, 7 * 7 * 64])
+		fc1 = tf.nn.relu(tf.matmul(pool2_flat, weights) + biases)
 
 	# Dropout layer
-	h_fc2_drop = tf.nn.dropout(h_fc2, keep_prob)
+	fc1_drop = tf.nn.dropout(fc1, keep_prob)
+
+	# Fully connected layer
+	with tf.name_scope('fc2'):
+		weights = weight_variable([1024, 512], 5e-4)
+		biases = bias_variable([512], 5e-4)
+
+		fc2 = tf.nn.relu(tf.matmul(fc1_drop, weights) + biases)
+
+	# Dropout layer
+	fc2_drop = tf.nn.dropout(fc2, keep_prob)
 
 	# Linear layer
-	W_fc3 = weight_variable([512, 10], 5e-4)
-	b_fc3 = bias_variable([10], 5e-4)
+	with tf.name_scope('linear'):
+		weights = weight_variable([512, 10], 5e-4)
+		biases = bias_variable([10], 5e-4)
 
-	logits = tf.matmul(h_fc2_drop, W_fc3) + b_fc3
+		logits = tf.matmul(fc2_drop, weights) + biases
 
 	return logits
 
