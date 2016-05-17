@@ -597,3 +597,12 @@ Using my-model-40000 for predictions.
 
 40. Even one by one predicting the label is taking lot of time.
 
+41. Adding one fully connected layer to Convnet, along with dropout to increase the accuracy.
+	Five layer Convolutional Network - 5 layer Convnet (1-32-P-64-P-1024FC-D-512FC-D-10)
+	Optimizer - AdamOptimizer
+	Learning rate - 1e-3
+	Batch size - 64
+	Epochs - 40001
+
+42. Stopped learning at 16000. Accuracy reached 0.986 in validation set.
+
