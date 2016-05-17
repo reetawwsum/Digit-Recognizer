@@ -9,7 +9,7 @@ Classify handwritten digits using the famous MNIST data
 4. Deep Neural Network - 6 layer (784-2500-2000-1500-1000-500-10)
 5. Four layer Convolutional Network - 4 layer Convnet (1-32-P-64-P-1024FC-D-10) with l2 regularization
 6. Four layer Convolutional Network - 4 layer Convnet (1-20-P-40-P-150FC-10)
-7. Five layer Convolutional Network - 5 layer Convnet (1-32-P-64-P-1024FC-D-512FC-D-10)
+7. Five layer Convolutional Network - 5 layer Convnet (1-32-P-64-P-1024FC-D-512FC-D-10) with l2 regularization
 
 >Note: Different models are committed in a single file *digit_recognizer_model.py*
 
