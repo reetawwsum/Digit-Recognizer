@@ -20,6 +20,11 @@ Classify handwritten digits using the famous MNIST data
 3. Tensorflow (0.8)
 4. Scikit-learn (0.17)
 
+## How to run
+
+1. Place train.csv and test.csv from Kaggle into dataset folder.
+2. Run **digit_recognizer.py**.
+
 ## Licence
 The MIT License (MIT)
 

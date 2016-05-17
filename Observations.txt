@@ -646,3 +646,5 @@ Using my-model-40000 for predictions.
 
 44. Training my model for some more epochs, in order to reduce the loss.
 
+45. It seems without increasing training dataset, I can't achieve accuracy more than this.
+
